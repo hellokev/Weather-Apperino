@@ -21,7 +21,7 @@ struct ContentView: View {
         GeometryReader { geometry in
             VStack {
                 if test.isLoading {
-                    LoadingView()
+                    LoadingView(text: "Loading. . .")
                 } else {
                     Text(test.weatherData?.name ?? "NO")
                         .font(.system(size: 36, weight: .bold, design: .default))

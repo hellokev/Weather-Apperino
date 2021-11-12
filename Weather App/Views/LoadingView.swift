@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct LoadingView: View {
+    var text: String
+    
     var body: some View {
-        Text("Loading. . .")
+        Text(text)
             .font(.system(size: 36, weight: .bold, design: .default))
             .foregroundColor(Color.fgPrimary)
     }
