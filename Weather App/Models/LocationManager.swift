@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import CoreLocation
+
 
 typealias Geolocation = (latitude: Double, longitude: Double)
 
@@ -14,17 +16,34 @@ enum Location {
     case settlement(String)
 }
 
-class LocationManager: ObservableObject {
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let baseUrl = "https://api.openweathermap.org/data/2.5/weather"
     private let apiKey = "&appid=9d958a66e735735b56e66b55bba5ada5&units=imperial"
     
+    var locationManager : CLLocationManager
+    
     @Published var weatherData: OpenWeatherAPI? = nil
     @Published var isLoading: Bool
-    
-    init() {
+
+    override init() {
         isLoading = true
+        locationManager = CLLocationManager()
+        super.init()
         grabWeatherData(at: .settlement("Bat Cave"))
+        
+        locationManager = CLLocationManager()
+        self.locationManager.requestAlwaysAuthorization()
+
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
+    
     
     func grabWeatherData(at place: Location) {
         var url: URL

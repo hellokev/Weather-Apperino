@@ -1,11 +1,10 @@
-//
-//  ContentView.swift
-//  Weather App
-//
-//  Created by user198043 on 9/30/21.
-//
-
 import SwiftUI
+import CoreLocation
+import MapKit
+import Foundation
+
+let locationManager = CLLocationManager()
+
 
 extension Color {
     static let bg = Color("background")
@@ -22,6 +21,14 @@ struct ContentView: View {
             VStack {
                 if test.isLoading {
                     LoadingView(text: "Loading. . .")
+                    NavigationView {
+                        /*VStack {
+                            Text("Next View")
+                            NavigationLink(destination: WeatherView()){
+                                Text("Do Something")
+                            }
+                        }*/
+                    }
                 } else {
                     Text(test.weatherData?.name ?? "NO")
                         .font(.system(size: 36, weight: .bold, design: .default))
@@ -32,8 +39,32 @@ struct ContentView: View {
                         .font(.system(size: 20, weight: .light, design: .default))
                         .foregroundColor(Color.fgPrimary)
                 }
-            }.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center).background(Color.black)
+            }/*.frame(width: geometry.size.width, height: geometry.size.height, alignment: .center).background(Color.black)*/
         }
+    }
+}
+
+class DeviceLocation : NSObject {
+
+}
+
+/*struct WeatherView: View {
+
+    var body: some View{
+        Text("Placeholder")
+    }
+    
+}*/
+
+extension CLLocationManager: CLLocationManagerDelegate {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+    }
+    public func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+          if (status == .denied) {
+              // Show Bat Cave weather
+          }
     }
 }
 
