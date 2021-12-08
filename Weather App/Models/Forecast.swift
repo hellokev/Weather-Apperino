@@ -19,14 +19,13 @@ let apiKey = "imperial&appid=7da6d65192a91313e2d8bf49ef2c7533"
 
 let Url = "\(baseURL)\(areaWithNoSpaces)&exclude=current,minutely,alerts&units=\(apiKey)"
 
-
 // MARK: - Forecast
 struct Forecast: Codable {
     let lat, lon: Double
-    let timezone: String
-    let timezoneOffset: Int
-    let hourly: [Hourly]
-    let daily: [Daily]
+    let timezone: String?
+    let timezoneOffset: Int?
+    let hourly: [Hourly]?
+    let daily: [Daily]?
 
     enum CodingKeys: String, CodingKey {
         case lat, lon, timezone
@@ -37,18 +36,18 @@ struct Forecast: Codable {
 
 // MARK: - Daily
 struct Daily: Codable {
-    let dt, sunrise, sunset, moonrise: Int
-    let moonset: Int
-    let moonPhase: Double
-    let temp: Temp
-    let feelsLike: FeelsLike
-    let pressure, humidity: Int
-    let dewPoint, windSpeed: Double
-    let windDeg: Int
-    let windGust: Double
-    let weather: [WeatherOut]
-    let clouds: Int
-    let pop, uvi: Double
+    let dt, sunrise, sunset, moonrise: Int?
+    let moonset: Int?
+    let moonPhase: Double?
+    let temp: Temp?
+    let feelsLike: FeelsLike?
+    let pressure, humidity: Int?
+    let dewPoint, windSpeed: Double?
+    let windDeg: Int?
+    let windGust: Double?
+    let weather: [WeatherOut]?
+    let clouds: Int?
+    let pop, uvi: Double?
     let rain, snow: Double?
 
     enum CodingKeys: String, CodingKey {
@@ -67,21 +66,21 @@ struct Daily: Codable {
 
 // MARK: - FeelsLike
 struct FeelsLike: Codable {
-    let day, night, eve, morn: Double
+    let day, night, eve, morn: Double?
 }
 
 // MARK: - Temp
 struct Temp: Codable {
-    let day, min, max, night: Double
-    let eve, morn: Double
+    let day, min, max, night: Double?
+    let eve, morn: Double?
 }
 
 // MARK: - WeatherOut
 struct WeatherOut: Codable {
-    let id: Int
-    let main: Master
-    let weatherDescription: Description
-    let icon: String
+    let id: Int?
+    let main: Master?
+    let weatherDescription: Description?
+    let icon: String?
 
     enum CodingKeys: String, CodingKey {
         case id, main
@@ -109,13 +108,14 @@ enum Description: String, Codable {
 
 // MARK: - Hourly
 struct Hourly: Codable {
-    let dt: Int
-    let temp, feelsLike: Double
-    let pressure, humidity: Int
-    let dewPoint, uvi: Double
+    let dt: Int?
+    let temp, feelsLike: Double?
+    let pressure, humidity: Int?
+    let dewPoint, uvi: Double?
 }
 
 struct Weekly: Codable {
-    let dt: Int
-    let temp: Double
+    let dt: Int?
+    let temp: Double?
 }
+

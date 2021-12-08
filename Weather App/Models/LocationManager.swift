@@ -30,6 +30,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         super.init()
         grabWeatherData(at: .settlement("Bat Cave"))
+        grabForecastData(from: "https://api.openweathermap.org/data/2.5/onecall?lat=35.4515&lon=-82.2871&exclude=current,minutely,alerts&units=imperial&appid=9d958a66e735735b56e66b55bba5ada5")
         
         locationManager = CLLocationManager()
         self.locationManager.requestAlwaysAuthorization()
@@ -78,4 +79,40 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     }
         }.resume()
     }
+    
+    func grabForecastData(from url: String) {
+        print(url)
+        let task = URLSession.shared.dataTask(with: URL(string: url)!, completionHandler: { data, response, error in
+            
+            guard let data = data, error == nil else {
+                print("Something went wrong")
+                return
+            }
+            
+            // have data
+            var result: Forecast?
+            do {
+                result = try JSONDecoder().decode(Forecast.self, from: data)
+            }
+            catch {
+                print("Failed to do \(error.localizedDescription)")
+            }
+            
+           /* guard let json = result else {
+                return
+            }*/
+            
+            guard let json = result else {
+                       print("test")
+                       return
+           }
+            DispatchQueue.main.sync {
+                print(json.lat)
+                print(json.lon)
+            }
+        })
+        task.resume()
+        
+    }
+
 }
