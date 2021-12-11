@@ -95,7 +95,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 result = try JSONDecoder().decode(Forecast.self, from: data)
             }
             catch {
-                print("Failed to do \(error.localizedDescription)")
+                print(String(describing: error))
             }
             
            /* guard let json = result else {

@@ -79,7 +79,7 @@ struct Temp: Codable {
 struct WeatherOut: Codable {
     let id: Int?
     let main: Master?
-    let weatherDescription: Description?
+    let weatherDescription: String?    // <-------- Now it's just a regular String
     let icon: String?
 
     enum CodingKeys: String, CodingKey {
